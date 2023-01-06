@@ -1,6 +1,6 @@
 def is_triangle(func):
     def wrap_func(sides):
-        return 0 not in sides and max(sides) <= sum(sides) - max(sides) and func(sides)
+        return 0 not in sides and 2 * max(sides) <= sum(sides) and func(sides)
     return wrap_func
 
 
@@ -17,3 +17,5 @@ def isosceles(sides):
 @is_triangle
 def scalene(sides):
     return len(set(sides)) == 3
+
+print(scalene([10, 20, 9]))
