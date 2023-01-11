@@ -10,7 +10,7 @@ EXPECTED_BAKE_TIME = 40
 # consider defining the 'PREPARATION_TIME' constant
 #       equal to the time it takes to prepare a single layer
 
-PREPARATION_TIME = 2 #per layer
+PREPARATION_TIME = 2  # per layer
 
 
 # define the 'bake_time_remaining()' function
@@ -26,13 +26,11 @@ def bake_time_remaining(elapsed_bake_time):
     """
     return EXPECTED_BAKE_TIME - elapsed_bake_time
 
-# define the 'preparation_time_in_minutes()' function
-#       and consider using 'PREPARATION_TIME' here
-def preparation_time_in_minutes(num_of_layers):
-    """Qualquer coisa
-    """
-    return num_of_layers * PREPARATION_TIME
+# define the 'preparation_time_in_minutes()' function and consider using 'PREPARATION_TIME' here
 
+
+def preparation_time_in_minutes(num_of_layers):
+    return num_of_layers * PREPARATION_TIME
 
 
 # define the 'elapsed_time_in_minutes()' function
@@ -42,5 +40,4 @@ def elapsed_time_in_minutes(number_of_layers, elapsed_bake_time):
     This function takes two numbers representing the number of layers & the time already spent 
     baking and calculates the total elapsed minutes spent cooking the lasagna.
     """
-    # Let's try this
     return PREPARATION_TIME * number_of_layers + elapsed_bake_time

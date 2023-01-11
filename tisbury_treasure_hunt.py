@@ -56,11 +56,8 @@ def clean_up(combined_record_group):
     The return statement should be a multi-lined string with items separated by newlines.
 
     (see HINTS.md for an example).
-    # """
-    # for record in combined_record_group:
-    #     return "".join([f'{(record[0], record[2], record[3], record[4])}\n'])
-
-    # return "".join([f"{(record[0], record[2], record[3], record[4])}\n" for record in combined_record_group])
+    """
+   
 
     list_of_strings = []
     

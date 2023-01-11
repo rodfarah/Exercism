@@ -2,7 +2,7 @@ from curses.ascii import isalpha
 
 
 def is_valid(isbn):
-    ''' Check if ISBN number is valid. True if:
+    '''Check if ISBN number is valid. True if:
     (d₁ * 10 + d₂ * 9 + d₃ * 8 + d₄ * 7 + d₅ * 6 + d₆ * 5 + d₇ * 4 + d₈ * 3 + d₉ * 2 + d₁₀ * 1) mod 11 == 0
 
     If last digit is a X, than X == 10

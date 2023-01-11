@@ -1,5 +1,4 @@
-'''
-This is the horse and the hound and the horn
+"""This is the horse and the hound and the horn
 that belonged to the farmer sowing his corn
 that kept the rooster that crowed in the morn
 that woke the priest all shaven and shorn
@@ -10,7 +9,8 @@ that tossed the dog
 that worried the cat
 that killed the rat
 that ate the malt
-that lay in the house that Jack built.'''
+that lay in the house that Jack built.
+"""
 
 
 def recite(start_verse, end_verse):
@@ -42,8 +42,7 @@ def recite(start_verse, end_verse):
 
         return ''.join(verse_list)
 
-    # Finally, let's iterate the arguments (start and end verse) \
-    # in order create other verses using 'create_verse' function:
+    # Finally, let's iterate the arguments (start and end verse) in order create other verses using 'create_verse' function:
     result_list = []
     for verse in range(start_verse, end_verse + 1):
         result_list.append(create_verse(verse))
