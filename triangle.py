@@ -1,21 +1,33 @@
+"""Determine if a triangle is equilateral, isosceles, or scalene. 
+
+An equilateral triangle has all three sides the same length. 
+An isosceles triangle has at least two sides the same length.
+A scalene triangle has all sides of different lengths.
+"""
+
+
 def is_triangle(func):
-    def wrap_func(sides):
-        return 0 not in sides and 2 * max(sides) <= sum(sides) and func(sides)
+    """Creating a decorator in order to check if sides create a valid triangle."""
+    def wrap_func(sides) -> bool:
+        no_zeroes = 0 not in sides
+        valid_triangle = 2 * max(sides) <= sum(sides)
+        return all([no_zeroes, valid_triangle, func(sides)])
     return wrap_func
 
 
 @is_triangle
-def equilateral(sides):
+def equilateral(sides: list[int]) -> bool:
     return len(set(sides)) == 1
 
 
 @is_triangle
-def isosceles(sides):
-    return 1 <= len(set(sides)) <= 2
+def isosceles(sides: list[int]) -> bool:
+    return len(set(sides)) <= 2
 
 
 @is_triangle
-def scalene(sides):
+def scalene(sides: list[int]) -> bool:
     return len(set(sides)) == 3
 
-print(scalene([10, 20, 9]))
+
+print(equilateral([10, 10, 10]))
