@@ -1,4 +1,4 @@
-from string import ascii_lowercase , punctuation
+from string import ascii_lowercase, punctuation
 
 '''Create an implementation of the atbash cipher, an ancient encryption \
     system created in the Middle East.
@@ -18,7 +18,7 @@ rev_reg_alpha = dict(zip(reversed_alphabet, regular_alphabet))
 
 def encode(plain_text: str) -> str:
     plain_text = plain_text.lower()
-    
+
     preliminar = ''
 
     for character in plain_text:
@@ -29,34 +29,34 @@ def encode(plain_text: str) -> str:
         else:
             preliminar += reg_rev_alpha[character]
 
-    print(preliminar)
-    idx_char_prelim_dict = {k:v for k,v in enumerate(preliminar, 1)}
-
-    print(idx_char_prelim_dict)
+    idx_char_prelim_dict = {k: v for k, v in enumerate(preliminar, 1)}
 
     multiples_of_five = len(preliminar) // 5
-
-    print(multiples_of_five)
 
     for num in range(1, multiples_of_five + 1):
         for k, v in idx_char_prelim_dict.items():
             if k == num*5:
                 idx_char_prelim_dict[k] += ' '
-    
-    print(idx_char_prelim_dict)
 
     result = ''
-    for k,v in idx_char_prelim_dict.items():
+    for k, v in idx_char_prelim_dict.items():
         result += v
+    return result.rstrip()
 
-    return result
-    
 
 def decode(ciphered_text: str) -> str:
-    ciphered_text = ciphered_text.lower().split()
+    plain_text = ciphered_text.lower()
+
     result = ''
 
+    for character in plain_text:
+        if character.isspace() or character in symbols:
+            result += ''
+        elif character.isdigit():
+            result += character
+        else:
+            result += rev_reg_alpha[character]
     return result
 
 
-print(encode('Testing,1 2 3, testing.'))
+print(encode("The quick brown fox jumps over the lazy dog."))
