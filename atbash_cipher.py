@@ -7,7 +7,6 @@ from string import ascii_lowercase, punctuation
     Ciphertext is written out in groups of fixed length, the traditional group \ 
     size being 5 letters, leaving numbers unchanged, and punctuation is excluded. 
 '''
-
 regular_alphabet = ''.join(ascii_lowercase)
 reversed_alphabet = regular_alphabet[::-1]
 symbols = ''.join(punctuation)
@@ -20,7 +19,6 @@ def encode(plain_text: str) -> str:
     plain_text = plain_text.lower()
 
     preliminar = ''
-
     for character in plain_text:
         if character.isspace() or character in symbols:
             preliminar += ''
