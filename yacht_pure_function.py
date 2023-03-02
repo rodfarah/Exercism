@@ -1,5 +1,10 @@
 '''In the game, five dice are rolled and the result can be entered in any of twelve categories. \
-    The score of a throw of the dice depends on category chosen.'''
+    The score of a throw of the dice depends on category chosen.
+    I've tried this algorithm bellow, which I think is pretty good, but it does not follow the \
+    logic the authors asked.
+    So, I tried using OOP, but again the same logic problem.
+    So, I tried one more try and now it is ok (please, see yatch.py).
+    '''
 
 
 def score(dice: list, category: str) -> int:
