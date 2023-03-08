@@ -3,7 +3,7 @@ import string
 
 def rotate(text, key):
     '''Create an implementation of the rotational cipher, \
-        also sometimes called the Caesar cipher.
+    also sometimes called the Caesar cipher.
     '''
 
     # Creating a list of special characters:
