@@ -1,33 +1,35 @@
-"""Manage robot factory settings."""
+"""Manage robot factory settings.
+Mentored by IsaacG.
+"""
 
 import string
 import random
 
-
-uppercase_letters = list(string.ascii_uppercase)
-numbers = list(string.digits)
 chosen_names = set()
 
 
 class Robot:
     def __init__(self):
-        self.name = self.get_name()
-
-    def get_name(self):
-        """Creates an unique random name for new or reseted robot."""
-        unique_name = True
-        while unique_name is True:
-            two_letters = ''.join(random.choices(uppercase_letters, k=2))
-            three_numbers = ''.join(random.choices(numbers, k=3))
-            name = two_letters + three_numbers
-            self.name = name
-            if name in chosen_names:
-                unique_name = False
-            else:
-                chosen_names.add(name)
-        return name
+        self.reset()
 
     def reset(self):
-        """Resets a robot to it's factory specs and generates a new unique robot name."""
-        self.name = self.get_name()
+        """Reset a robot to a new unique robot name."""
+        while True:
+            name = ''.join(
+                random.choices(string.ascii_uppercase, k=2)
+                + random.choices(string.digits, k=3)
+            )
+            if name not in chosen_names:
+                break
+        chosen_names.add(name)
+        self.name = name
 
+
+
+
+r1 = Robot()
+r2 = Robot()
+print(r1.name)
+print(r2.name)
+r1.reset()
+print(r1.name)
