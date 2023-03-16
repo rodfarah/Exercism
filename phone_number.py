@@ -1,62 +1,56 @@
 """Clean up user-entered phone numbers so that they can be sent SMS messages."""
 
 
-def clean_up(raw_number: str) -> str:
-    """return a string with digits.
-    raise error for alpha and peculiar characters
-    """
-    special_chars = ' +()-.'
-    clean_number = ''
-    for char in raw_number:
-        if char.isdigit():
-            clean_number += char
-        elif char.isalpha():
-            raise ValueError("letters not permitted")
-        elif not char.isdigit() and char not in special_chars:
-            raise ValueError("punctuations not permitted")
-    return clean_number
-
-
-def validation(clean_number: str) -> str:
-    """check for errors.
-    removes number 1 from first digit (if applicable)
-    """
-    if len(clean_number) < 10:
-        raise ValueError("must not be fewer than 10 digits")
-    elif len(clean_number) > 11:
-        raise ValueError("must not be greater than 11 digits")
-    elif len(clean_number) == 11 and not clean_number.startswith('1'):
-        raise ValueError("11 digits must start with 1")
-    # removes number 1 from first digit (if applicable):
-    elif len(clean_number) == 11:
-        clean_number = clean_number.removeprefix("1")
-    # new conditions after removing number 1 from first digit (if applicable):
-    if clean_number[3] == '0':
-        raise ValueError("exchange code cannot start with zero")
-    elif clean_number[3] == '1':
-        raise ValueError("exchange code cannot start with one")
-    elif clean_number[0] == '0':
-        raise ValueError("area code cannot start with zero")
-    elif clean_number[0] == '1':
-        raise ValueError("area code cannot start with one")
-    return clean_number
-
-
 class PhoneNumber:
     def __init__(self, number: str):
-        # format a phone number to send SMS:
-        self.number = validation(clean_up(number))
-        self.area_code = self.number[0:3]
+        """Format a phone number according to SMS standards."""
+        self.number = self.validate(number)
 
-    def pretty(self) -> str:
-        """format a phone number, using parenthesis and hyphen.
-        ie. (613)-995-0253
-        """
-        return f'({self.area_code})-{self.number[3:6]}-{self.number[6::]}'
+    @property
+    def area_code(self)-> str:
+        """Return the area code from a phone number."""
+        return self.number[0:3]
+
+    def clean_up(self, raw_number: str) -> str:
+        """Return a string with digits."""
+        special_chars = " +()-."
+        number_list = []
+        for char in raw_number:
+            if char.isalpha():
+                raise ValueError("letters not permitted")
+            elif char.isdigit():
+                number_list.append(char)
+            elif char not in special_chars:
+                raise ValueError("punctuations not permitted")
+        return "".join(number_list)
+
+    def validate(self, num: str) -> str:
+        """Check for ValueErrors."""
+        cleaned_up_num = self.clean_up(num)
+        if len(cleaned_up_num) < 10:
+            raise ValueError("must not be fewer than 10 digits")
+        elif len(cleaned_up_num) > 11:
+            raise ValueError("must not be greater than 11 digits")
+        elif len(cleaned_up_num) == 11 and not cleaned_up_num.startswith("1"):
+            raise ValueError("11 digits must start with 1")
+        # removes number 1 from first digit if applicable:
+        elif len(cleaned_up_num) == 11:
+            cleaned_up_num = cleaned_up_num.removeprefix("1")
+        # new conditions after removing number 1 from first digit (if applicable):
+        if cleaned_up_num[3] == "0":
+            raise ValueError("exchange code cannot start with zero")
+        elif cleaned_up_num[3] == "1":
+            raise ValueError("exchange code cannot start with one")
+        elif cleaned_up_num[0] == "0":
+            raise ValueError("area code cannot start with zero")
+        elif cleaned_up_num[0] == "1":
+            raise ValueError("area code cannot start with one")
+        return cleaned_up_num
+
+    def pretty(self)-> str:
+        """Format a phone number, using parenthesis and hyphen."""
+        return f"({self.area_code})-{self.number[3:6]}-{self.number[6::]}"
 
 
-f001 = PhoneNumber("1 (623) 43-7890")
+p001 = PhoneNumber("(223) 456-7890")
 
-print(f001.number)
-print(f001.area_code)
-print(f001.pretty())
