@@ -1,5 +1,4 @@
-one_to_nineteen = {
-    0: "zero",
+base_dict = {
     1: "one",
     2: "two",
     3: "three",
@@ -18,56 +17,35 @@ one_to_nineteen = {
     16: "sixteen",
     17: "seventeen",
     18: "eighteen",
-    19: "nineteen"
-}
-
-twenty_to_ninety = {
-    2: "twenty",
-    3: "thirty",
-    4: "forty",
-    5: "fifty",
-    6: "sixty",
-    7: "seventy",
-    8: "eighty",
-    9: "ninety"
+    19: "nineteen",
+    20: "twenty",
+    30: "thirty",
+    40: "forty",
+    50: "fifty",
+    60: "sixty",
+    70: "seventy",
+    80: "eighty",
+    90: "ninety"
 }
 
 
-def zero_to_99(number: int) -> str:
-    """Spell out a number in English from zero to 99."""
-    
-    if number in one_to_nineteen:
-        return one_to_nineteen[number]
-    sliced = divmod(number, 10)
-    if sliced[1] == 0:
-        return f"{twenty_to_ninety[sliced[0]]}"
-    else:        
-        return f"{twenty_to_ninety[sliced[0]]}-{one_to_nineteen[sliced[1]]}"
-
-
-def hundred_to_999(number: int) -> str:
-    """Spell out a number in English, from 100 to 999."""
-    if number < 100:
-        return zero_to_99(number)
-    slicer = divmod(number, 100)
-    if slicer[1] == 0:
-        return f"{one_to_nineteen[slicer[0]]} hundred"
+def one_to_999(number: int) -> str:
+    """Write a number in English, from one to 999."""
+    if number in base_dict:
+        return base_dict[number]
+    spliter_one = divmod(number, 100)
+    spliter_two = divmod(spliter_one[1], 10)
+    first_digit = spliter_one[0]
+    second_digit = spliter_two[0]
+    third_digit = spliter_two[1]
+    if first_digit == 0:
+        return f"{base_dict[second_digit * 10]}-{base_dict[third_digit]}"
+    elif all([second_digit == 0, third_digit == 0]):
+        return f"{base_dict[first_digit]} hundred"
+    elif first_digit > 0 and spliter_one[1] in base_dict:
+        return f"{base_dict[first_digit]} hundred {base_dict[spliter_one[1]]}"
     else:
-        return f"{one_to_nineteen[slicer[0]]} hundred " + zero_to_99(slicer[1])
-
-
-result = []
-def slicer(number: int) -> list[int]:
-    """Return a list with sliced 3 by 3 digits from a large number."""
-    sliced = divmod(number, 1000)
-    result.append(sliced[1])
-    if sliced[0] > 999:
-        slicer(sliced[0])
-    result.append(sliced[0])
-    for num in result:
-        if num > 999:
-            result.remove(num)
-    return result
+        return f"{base_dict[first_digit]} hundred {base_dict[second_digit * 10]}-{base_dict[third_digit]}"
 
 
 def say(number: int) -> str:
@@ -75,12 +53,14 @@ def say(number: int) -> str:
     if 10e11 <= number or number < 0:
         raise ValueError("input out of range")
     elif number == 0:
-        return zero_to_99(number)
-    num_list = slicer(number)
+        return "zero"
+    str_list = "{:_}".format(number).split("_")
     order = ["", "thousand", "million", "billion"]
-    result_dict = {n: o for n, o in zip(num_list, order) if n > 0}
+    inv_num_list = [int(n) for n in str_list][::-1]
+    result_dict = {o: n for o, n in zip(order, inv_num_list) if n > 0}
     result_list = []
     for k, v in result_dict.items():
-        result_list.append(v)
-        result_list.append(hundred_to_999(k))
+        if k != "":
+            result_list.append(k)
+        result_list.append(one_to_999(v))
     return " ".join(result_list[::-1])
