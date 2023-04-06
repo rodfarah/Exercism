@@ -2,7 +2,7 @@
 import string
 
 
-def rows(letter: str) -> str:
+def rows(letter: str) -> list[str]:
     """Print a diamond starting with 'A', with the supplied letter at the widest point."""
     if letter == "A":
         return ["A"]
