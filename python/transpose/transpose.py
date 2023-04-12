@@ -1,30 +1,36 @@
-import itertools
-
-
 def transpose(lines: str) -> str:
     """Transpose a string input."""
-    if not transpose:
-        return ""
-    if "\n" in lines:
-        lines = lines.split("\n")
-    else:
-        return "\n".join([char for char in lines])
+    splited_lines = lines.split("\n")
+    max_lenght = max([len(line) for line in splited_lines])
 
-    combined = []
-    for tup in itertools.zip_longest(*lines, fillvalue=" "):
-        combined.append("".join(tup))
+    # fill out any symbol (~) to end of lines in order to keep them with the same lenght
+    equal_lenght = []
+    for line in splited_lines:
+        equal_lenght.append(line + (max_lenght - len(line)) * "~")
 
-    result = []
-    for item in combined:
+    # create a list with transposed lines
+    each_one = []
+    transposed_list = []
+    idx = 0
+    while idx <= max_lenght - 1:
+        for line in equal_lenght:
+            each_one.append(line[idx])
+        transposed_list.append("".join(each_one))
+        each_one = []
+        idx += 1
+
+    # remove symbol (~) from end of lines, keeping eventual original blank spaces at the end of lines
+    for n in range(len(transposed_list)):
         while True:
-            if item.endswith(" "):
-                item = item.removesuffix(" ")
-                continue
-            else:
-                result.append(item)
+            if not transposed_list[n].endswith("~"):
                 break
+            else:
+                transposed_list[n] = transposed_list[n].removesuffix("~")
+                continue
+
+    # if in the middle of a line, convert symbol (~) into a blank space
+    result = []
+    for line in transposed_list:
+        result.append(line.replace("~", " "))
 
     return "\n".join(result)
-
-
-print(transpose("The first line.\nThe second line."))
