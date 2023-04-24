@@ -2,31 +2,40 @@ def transpose(*lines: str) -> str:
     """Transpose a string input."""
     lines = "\n".join(lines)
     splited_lines = lines.split("\n")
-    max_lenght = max([len(line) for line in splited_lines])
+    max_len = max([len(x) for x in splited_lines])
 
-    # fill out any symbol (~) to end of lines in order to keep them with the same lenght
-    equal_length = []
+    # Insert None(s) and create equal length list
+    equal_len = []
     for line in splited_lines:
-        equal_length.append(line + (max_lenght - len(line)) * "~")
-
-    # create a list with transposed lines
-    each_one = []
-    transposed_list = []
-    for n in range(0, max_lenght):
-        for line in equal_length:
-            each_one.append(line[n])
-        transposed_list.append("".join(each_one))
-        each_one = []
-
-    # remove symbol (~) from end of lines, keeping eventual original blank spaces at the end of lines
-    for n in range(len(transposed_list)):
-        while True:
-            if not transposed_list[n].endswith("~"):
-                break
-            else:
-                transposed_list[n] = transposed_list[n].removesuffix("~")
-                continue
-
-    # if in the middle of a line, convert symbol (~) into a blank space
-    result = [line.replace("~", " ") for line in transposed_list]
-    return "\n".join(result)
+        if len(line) < max_len:
+            each_line = [char for char in line]
+            for n in range(max_len - len(line)):
+                each_line.append(None)
+            equal_len.append(each_line)
+        else:
+            equal_len.append([char for char in line])
+    
+    # Create a list with characters combined by same indexes
+    idx = 0
+    combined_list = []
+    while idx < max_len:
+        each_comb = []
+        for lst in equal_len:
+            each_comb.append(lst[idx])
+        combined_list.append(each_comb)
+        idx += 1
+    
+    # Delete None if situated in the end
+    no_last_none = []
+    for comb in combined_list:
+        while comb and comb[-1] == None:
+            comb.pop()
+        no_last_none.append(comb)
+    
+    # Convert residual None's into blank spaces
+    none_to_space = []
+    for comb in no_last_none:
+        comb = [" " if char is None else char for char in comb]
+        none_to_space.append(comb)
+    joined = ["".join(lst) for lst in none_to_space]
+    return "\n".join(joined)
