@@ -1,3 +1,9 @@
+"""
+Given an input text output it transposed.
+
+Very well mentored by MatthijsBlom.
+"""
+
 from itertools import zip_longest
 
 
@@ -8,27 +14,23 @@ def no_terminal_none(any_list: list) -> list:
     return any_list
 
 
-def transpose(*lines: str) -> str:
+def transpose(lines: str) -> str:
     """Transpose a string input."""
-    lines = "\n".join(lines)
     splited_lines = lines.split("\n")
 
     # Isolate each character from each line and put them inside respective lists
     splited_lines_lists = [list(item) for item in splited_lines]
 
     # Transpose and combine isolated characters into tuples, already with Nones (if aplicable)
-    equal_len = list(zip_longest(*splited_lines_lists))
-
-    # Convert list of tuples into list of lists
-    equal_len = [list(item) for item in equal_len]
+    equal_len_tuples = zip_longest(*splited_lines_lists)
 
     # Delete None s if situated at the end
-    no_last_none = [no_terminal_none(lst) for lst in equal_len]
+    no_last_none = [no_terminal_none(list(item)) for item in equal_len_tuples]
 
     # Convert residual None s into blank spaces
     none_to_space = [[" " if char is None else char for char in comb]
                      for comb in no_last_none]
 
     # Final answer
-    joined = ["".join(lst) for lst in none_to_space]
+    joined = ("".join(lst) for lst in none_to_space)
     return "\n".join(joined)
