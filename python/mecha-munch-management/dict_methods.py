@@ -8,16 +8,21 @@ def add_item(current_cart: dict, items_to_add):
     :param items_to_add: iterable - items to add to the cart.
     :return: dict - the updated user cart dictionary.
     """
+
+    # My solution:
+    # for item in items_to_add:
+    #     if item not in current_cart.keys():
+    #         current_cart.update([(item, 1)])
+    #     else:
+    #         for product in current_cart.keys():
+    #             if product == item:
+    #                 current_cart[product] += 1
+    # return current_cart
+    
+    # Better solution:
     for item in items_to_add:
-        if item not in current_cart.keys():
-            current_cart.update([(item, 1)])
-        else:
-            for product in current_cart.keys():
-                if product == item:
-                    current_cart[product] += 1
-
+        current_cart[item] = current_cart.setdefault(item, 0)+1
     return current_cart
-
 
 def read_notes(notes):
     """Create user cart from an iterable notes entry.
@@ -25,17 +30,26 @@ def read_notes(notes):
     :param notes: iterable of items to add to cart.
     :return: dict - a user shopping cart dictionary.
     """
-    order_dict = {}
 
-    only_one = set(notes)
+    # My first solution:
+    # order_dict = {}
+    # only_one = set(notes)
+    # for item in only_one:
+    #     order_dict[item] = 0
+    # for product in notes:
+    #     order_dict[product] += 1
+    # return order_dict
 
-    for item in only_one:
-        order_dict[item] = 0
+    # Better solution:
+    # shopping_cart = {}
+    # for item in notes:
+    #     shopping_cart[item] = shopping_cart.setdefault(item, 0)+1
+    # return shopping_cart
 
-    for product in notes:
-        order_dict[product] += 1
 
-    return order_dict
+    # Even better solution (Each item should be added with a quantity of 1.):
+    cart=dict.fromkeys(notes, 1)
+    return cart
 
 
 def update_recipes(ideas, recipe_updates):
@@ -47,11 +61,16 @@ def update_recipes(ideas, recipe_updates):
     :return: dict - updated "recipe ideas" dict.
     """
 
-    for item in recipe_updates:
-        if item[0] in ideas.keys():
-            ideas[item[0]] = item[1]
-        else:
-            ideas.update([(item[0], item[1])])
+    # My first solution:
+    # for item in recipe_updates:
+    #     if item[0] in ideas.keys():
+    #         ideas[item[0]] = item[1]
+    #     else:
+    #         ideas.update([(item[0], item[1])])
+    # return ideas
+
+    # Better Solution:
+    ideas |= recipe_updates
     return ideas
 
 
@@ -62,11 +81,15 @@ def sort_entries(cart):
     :return: dict - users shopping cart sorted in alphabetical order.
     """
 
-    sorted_cart = {}
-    for item in sorted(cart.keys()):
-        sorted_cart.update([(item, cart[item])])
+    # My first solution:
+    # sorted_cart = {}
+    # for item in sorted(cart.keys()):
+    #     sorted_cart.update([(item, cart[item])])
 
-    return sorted_cart
+    # return sorted_cart
+
+    # Better solution:
+    return dict(sorted(cart.items()))
 
 
 def send_to_store(cart, aisle_mapping):
